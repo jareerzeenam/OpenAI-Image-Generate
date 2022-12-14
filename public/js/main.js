@@ -3,20 +3,26 @@ function onSubmit(e) {
 
   // initially set message and image to empty
   document.querySelector('.msg').textContent = '';
-  document.querySelector('#image').src = '';
+  const imgs = document.querySelectorAll('.single-image');
+
+  // remove images on next search
+  imgs.forEach((element) => {
+    element.remove();
+  });
 
   const prompt = document.querySelector('#prompt').value;
   const size = document.querySelector('#size').value;
+  const number = document.querySelector('#number').value;
 
   if (prompt === '') {
     alert('Please add some text!');
     return;
   }
 
-  generateImageRequest(prompt, size);
+  generateImageRequest(prompt, size, number);
 }
 
-async function generateImageRequest(prompt, size) {
+async function generateImageRequest(prompt, size, number) {
   try {
     showSpinner();
 
@@ -28,6 +34,7 @@ async function generateImageRequest(prompt, size) {
       body: JSON.stringify({
         prompt,
         size,
+        number,
       }),
     });
 
@@ -37,12 +44,21 @@ async function generateImageRequest(prompt, size) {
     }
 
     const data = await response.json();
-    // console.log(data);
+    // console.log('DATA ::: ', data);
 
-    const imageUrl = data.data;
+    // const imageUrl = data.data.imageUrl;
+
+    const imageUrls = data.data.imageUrls;
+
+    imageUrls.forEach(function (imageUrl) {
+      const img = document.createElement('img');
+      img.classList.add('single-image');
+      img.src = imageUrl.url;
+      document.querySelector('.image-container').appendChild(img);
+    });
 
     // set the image url from the response
-    document.querySelector('#image').src = imageUrl;
+    // document.querySelector('#image').src = imageUrl;
 
     removeSpinner();
   } catch (error) {

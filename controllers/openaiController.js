@@ -6,7 +6,7 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 const generateImage = async (req, res) => {
-  const { prompt, size } = req.body;
+  const { prompt, size, number } = req.body;
 
   const imageSize =
     size === 'small' ? '256x256' : size === 'medium' ? '512x512' : '1024x1024';
@@ -14,15 +14,21 @@ const generateImage = async (req, res) => {
   try {
     const response = await openai.createImage({
       prompt, // Input test to process image
-      n: 1, // Number of images
+      n: parseInt(number) || 1, // Number of images
       size: imageSize, // Image size
     });
 
-    const imageUrl = response.data.data[0].url;
+    // console.log('DATA', response.data.data);
+
+    // const imageUrl = response.data.data[0].url;
+    const imageUrls = response.data.data;
 
     res.status(200).json({
       success: true,
-      data: imageUrl,
+      data: {
+        // imageUrl,
+        imageUrls,
+      },
     });
   } catch (error) {
     if (error.response) {
