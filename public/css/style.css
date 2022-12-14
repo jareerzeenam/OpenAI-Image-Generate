@@ -9,7 +9,8 @@
 }
 
 :root {
-  --primary-color: #f9b64d;
+  --primary-color: #303030;
+  --inner-color: #f9b64d;;
 }
 
 body {
@@ -22,7 +23,7 @@ body {
 
 /* Navbar */
 .navbar {
-  background: #333;
+  background: rgb(34, 34, 34);
   color: #fff;
   padding: 1rem;
   display: flex;
@@ -46,7 +47,7 @@ body {
 }
 
 .navbar a:hover {
-  color: var(--primary-color);
+  color: var(--inner-color);
 }
 
 /* Showcase */
@@ -58,7 +59,7 @@ body {
 
 .showcase h1 {
   font-size: 2.5rem;
-  color: #333;
+  color: rgb(255, 255, 255);
   text-align: center;
   padding: 1rem 0;
 }
@@ -86,15 +87,18 @@ form select {
 form button {
   font-size: 20px;
   padding: 1rem 2rem;
-  border: none;
+  border: 2px solid white;
   border-radius: 5px;
-  background: #333;
+  background: rgb(37, 37, 37);
   color: #fff;
   cursor: pointer;
   margin-top: 20px;
+  transition: all 0.1s ease-in-out;
 }
 
 form button:hover {
+  border: 2px solid var(--inner-color);
+  color: var(--inner-color);
   transform: scale(1.1);
 }
 
