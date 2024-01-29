@@ -1,21 +1,23 @@
-const { Configuration, OpenAIApi } = require('openai');
+const { OpenAI } = require('openai');
 
-const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-const openai = new OpenAIApi(configuration);
+const openai = new OpenAI(process.env.OPENAI_API_KEY);
 
 const generateImage = async (req, res) => {
   const { prompt, size, number } = req.body;
 
   const imageSize =
-    size === 'small' ? '256x256' : size === 'medium' ? '512x512' : '1024x1024';
+    size === 'small'
+      ? '256x256'
+      : size === 'medium'
+      ? '512x512'
+      : '1024x1024';
 
   try {
-    const response = await openai.createImage({
-      prompt, // Input test to process image
-      n: parseInt(number) || 1, // Number of images
-      size: imageSize, // Image size
+    const response = await openai.images.generate({
+      model: 'dall-e-3',
+      prompt,
+      n: parseInt(number) || 1,
+      size: imageSize,
     });
 
     // console.log('DATA', response.data.data);
